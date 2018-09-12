@@ -1,4 +1,4 @@
-AC_INIT([cpuminer-multi], [1.2-dev])
+AC_INIT([cpuminer-multi], [1.3.5])
 
 AC_PREREQ([2.59c])
 AC_CANONICAL_SYSTEM
@@ -17,7 +17,7 @@ AC_PROG_GCC_TRADITIONAL
 AM_PROG_CC_C_O
 AM_PROG_AS
 AC_PROG_RANLIB
-# AC_PROG_CXX
+AC_PROG_CXX
 
 dnl Checks for header files
 AC_HEADER_STDC
@@ -44,6 +44,9 @@ AC_CHECK_FUNCS([getopt_long])
 MINGW_TARGET=`$CC -dumpmachine 2>&1`
 case $MINGW_TARGET in
   arm*-*-*)
+    have_arm=true
+    ;;
+  aarch64*-*-*)
     have_arm=true
     ;;
   i*86-*-mingw*)
@@ -145,6 +148,7 @@ AC_ARG_WITH([curl],
 
 if test -n "$with_curl" ; then
    LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_curl/include"
+   LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_curl/include"
    LIBCURL_LDFLAGS="-L$with_curl/lib $LIBCURL_LDFLAGS"
    LIBCURL="-lcurl -lz"
 fi
@@ -155,16 +159,18 @@ AC_ARG_WITH([crypto],
 
 if test -n "$with_crypto" ; then
    LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_crypto/include"
+   LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_crypto/include"
    LIBCURL_LDFLAGS="-L$with_crypto/lib $LIBCURL_LDFLAGS"
    LIBCURL="$LIBCURL -lssl -lcrypto"
 fi
 
 CFLAGS="$CFLAGS $LIBCURL_CFLAGS"
+CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
 LDFLAGS="$LDFLAGS $LIBCURL_LDFLAGS"
 
-#AC_CHECK_LIB([z],[gzopen],[],[])
-#AC_CHECK_LIB([crypto],[OPENSSL_init], crypto=yes, [AC_MSG_ERROR([OpenSSL crypto library required])])
-#AC_CHECK_LIB([ssl],[SSL_new], ssl=yes, ssl=no)
+AC_CHECK_LIB([z],[gzopen],[],[])
+AC_CHECK_LIB([crypto],[EVP_DigestFinal_ex], crypto=yes, [AC_MSG_ERROR([OpenSSL crypto library required])])
+AC_CHECK_LIB([ssl],[SSL_free], ssl=yes, ssl=no)
 
 # AC_CHECK_LIB([curl], [curl_multi_timeout],
 #    have_libcurl=yes,

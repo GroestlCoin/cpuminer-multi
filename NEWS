@@ -1,8 +1,48 @@
-Version 1.2
-- Add cryptonight-light (Aeon)
+Version 1.3.5
+- Add allium algo
+- Add x12 algo
+- Add x16s algo
+- Add phi and phi2
+- Add sonoa
+- Handle new aeon cryptolight variant
+- Handle new monero algo (hardcoded)
 
-TODO:
-- Lyra2v2, arm compat, multipool config
+Version 1.3.3
+- Add tribus algo
+- Add x16r algo
+- Add keccakc variant
+
+Version 1.3.2
+- Add bitcore algo
+- Add jha algo
+
+Version 1.3.1 (Tanguy Pruvot)  26 Jan 2017
+- Add timetravel algo
+- Add --max-log-rate to limit per-core logs
+
+Version 1.3 (Tanguy Pruvot)
+- Add decred algo
+- Add lbry algo
+- Add sia algo
+- Add x11evo algo
+- Add x17 and xevan algos
+- Add veltor algo
+- Enhance Blake2-S
+- Stratum benchmarks support
+- Show diff and solved blocks by default
+
+Version 1.2 (Tanguy Pruvot)
+- Add cryptonight-light (Aeon)
+- Add Lyra2REv2 algo (Vertcoin)
+- Allow to load a remote config with curl
+- Algorithm parameter is now case insensitive
+- Drop anime algo (dead coin)
+- Add Sib(coin) algo
+- Add Bastion algo
+- Add Yescrypt and scrypt-jane algos
+- Compute and show network diff in pools too
+- Compute Shares diff and count solved blocks
+- Checkup on arm, tested ok on Tegra K1 (CyanogenMod 12.1)
 
 version 1.1 (Tanguy Pruvot)
 - Add basic API remote control (quit/seturl)
@@ -40,7 +80,7 @@ Version 1.0.8 (Tanguy Pruvot)
 
 Version 1.0.7 (Tanguy Pruvot)
 - Add NIST5 and QUBIT algos
-- Show current stratum bloc height
+- Show current stratum block height
 - Fix wallet solo mining
 
 Version 1.0.6 (Tanguy Pruvot)

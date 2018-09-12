@@ -18,6 +18,7 @@ dist_man_MANS	= cpuminer.1
 cpuminer_SOURCES = \
   cpu-miner.c util.c \
   api.c sysinfos.c \
+  uint256.cpp \
   sha3/sph_keccak.c \
   sha3/sph_hefty1.c \
   sha3/sph_groestl.c \
@@ -32,12 +33,16 @@ cpuminer_SOURCES = \
   sha3/sph_simd.c \
   sha3/sph_echo.c \
   sha3/sph_hamsi.c \
+  sha3/sph_haval.c \
   sha3/sph_fugue.c \
+  sha3/sph_ripemd.c \
   sha3/sph_sha2.c \
   sha3/sph_sha2big.c \
   sha3/sph_shabal.c \
   sha3/sph_whirlpool.c \
+  sha3/gost_streebog.c \
   crypto/blake2s.c \
+  crypto/blake2b.c \
   crypto/oaes_lib.c \
   crypto/c_keccak.c \
   crypto/c_groestl.c \
@@ -47,8 +52,11 @@ cpuminer_SOURCES = \
   crypto/hash.c \
   crypto/aesb.c \
   lyra2/Lyra2.c lyra2/Sponge.c \
-  algo/animecoin.c \
+  yescrypt/yescrypt-common.c yescrypt/yescrypt-best.c \
+  yescrypt/sha256_Y.c \
+  algo/allium.c \
   algo/axiom.c \
+  algo/bastion.c \
   algo/blake.c \
   algo/blakecoin.c \
   algo/blake2.c \
@@ -56,31 +64,51 @@ cpuminer_SOURCES = \
   algo/c11.c \
   algo/cryptonight.c \
   algo/cryptolight.c \
+  algo/decred.c \
   algo/drop.c \
   algo/fresh.c \
   algo/groestl.c \
   algo/heavy.c \
   algo/ink.c \
+  algo/jha.c \
+  algo/lbry.c \
   algo/luffa.c \
   algo/lyra2re.c \
   algo/lyra2rev2.c \
   algo/myr-groestl.c \
   algo/keccak.c \
   algo/pentablake.c \
+  algo/phi1612.c \
+  algo/phi2.c \
   algo/quark.c \
   algo/neoscrypt.c \
   algo/nist5.c \
   algo/pluck.c \
   algo/qubit.c \
   algo/scrypt.c \
+  algo/scrypt-jane.c \
   algo/sha2.c \
+  algo/sia.c \
+  algo/sibcoin.c \
   algo/skein.c \
   algo/skein2.c \
+  algo/sonoa.c \
   algo/s3.c \
+  algo/bitcore.c \
+  algo/timetravel.c \
+  algo/tribus.c \
+  algo/veltor.c \
+  algo/x11evo.c \
   algo/x11.c \
+  algo/x12.c \
   algo/x13.c \
   algo/x14.c \
   algo/x15.c \
+  algo/x16r.c \
+  algo/x16s.c \
+  algo/x17.c \
+  algo/xevan.c \
+  algo/yescrypt.c \
   algo/zr5.c
 
 disable_flags =
@@ -111,6 +139,7 @@ cpuminer_CFLAGS   = -Wno-pointer-sign -Wno-pointer-to-int-cast $(disable_flags)
 
 if HAVE_WINDOWS
 cpuminer_CFLAGS += -Wl,--stack,10485760
+cpuminer_LDADD += -lcrypt32 -lgdi32 -lgcc -lgcc_eh
 endif
 
 if HAVE_WINDOWS
