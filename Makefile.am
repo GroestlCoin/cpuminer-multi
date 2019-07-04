@@ -32,9 +32,11 @@ cpuminer_SOURCES = \
   sha3/sph_cubehash.c \
   sha3/sph_simd.c \
   sha3/sph_echo.c \
+  sha3/sph_fugue.c \
   sha3/sph_hamsi.c \
   sha3/sph_haval.c \
-  sha3/sph_fugue.c \
+  sha3/sph_panama.c \
+  sha3/sph_radiogatun.c \
   sha3/sph_ripemd.c \
   sha3/sph_sha2.c \
   sha3/sph_sha2big.c \
@@ -75,6 +77,7 @@ cpuminer_SOURCES = \
   algo/luffa.c \
   algo/lyra2re.c \
   algo/lyra2rev2.c \
+  algo/lyra2v3.c \
   algo/myr-groestl.c \
   algo/keccak.c \
   algo/pentablake.c \
@@ -85,6 +88,7 @@ cpuminer_SOURCES = \
   algo/nist5.c \
   algo/pluck.c \
   algo/qubit.c \
+  algo/rainforest.c \
   algo/scrypt.c \
   algo/scrypt-jane.c \
   algo/sha2.c \
@@ -106,6 +110,7 @@ cpuminer_SOURCES = \
   algo/x15.c \
   algo/x16r.c \
   algo/x16s.c \
+  algo/x20r.c \
   algo/x17.c \
   algo/xevan.c \
   algo/yescrypt.c \

@@ -203,6 +203,7 @@ int scanhash_axiom(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *
 int scanhash_bastion(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_blake(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_blakecoin(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
+int scanhash_blake2b(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_blake2s(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_bmw(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_cryptolight(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
@@ -220,6 +221,7 @@ int scanhash_lbry(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *h
 int scanhash_luffa(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_lyra2(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_lyra2rev2(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
+int scanhash_lyra2v3(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_myriad(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_neoscrypt(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done, uint32_t profile);
 int scanhash_nist5(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
@@ -231,6 +233,7 @@ int scanhash_pluck(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *
 int scanhash_quark(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 void init_quarkhash_contexts();
 int scanhash_qubit(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
+int scanhash_rf256(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_sha256d(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 unsigned char *scrypt_buffer_alloc(int N);
 int scanhash_scrypt(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done,
@@ -255,6 +258,7 @@ int scanhash_x15(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *ha
 int scanhash_x16r(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_x16s(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_x17(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
+int scanhash_x20r(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_xevan(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_yescrypt(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
 int scanhash_zr5(int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done);
@@ -520,6 +524,7 @@ void lbry_hash(void *output, const void *input);
 void luffahash(void *output, const void *input);
 void lyra2_hash(void *state, const void *input);
 void lyra2rev2_hash(void *state, const void *input);
+void lyra2v3_hash(void *state, const void *input);
 void myriadhash(void *output, const void *input);
 void neoscrypt(unsigned char *output, const unsigned char *password, uint32_t profile);
 void nist5hash(void *output, const void *input);
@@ -549,6 +554,7 @@ void x15hash(void *output, const void *input);
 void x16r_hash(void *output, const void *input);
 void x16s_hash(void *output, const void *input);
 void x17hash(void *output, const void *input);
+void x20r_hash(void *output, const void *input);
 void zr5hash(void *output, const void *input);
 void yescrypthash(void *output, const void *input);
 void zr5hash_pok(void *output, uint32_t *pdata);

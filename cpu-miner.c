@@ -87,6 +87,7 @@ enum algos {
 	ALGO_BASTION,
 	ALGO_BLAKE,       /* Blake 256 */
 	ALGO_BLAKECOIN,   /* Simplified 8 rounds Blake 256 */
+	ALGO_BLAKE2B,
 	ALGO_BLAKE2S,     /* Blake2s */
 	ALGO_BMW,         /* BMW 256 */
 	ALGO_C11,         /* C11 Chaincoin/Flaxcoin X11 variant */
@@ -101,7 +102,8 @@ enum algos {
 	ALGO_LBRY,        /* Lbry Sha Ripemd */
 	ALGO_LUFFA,       /* Luffa (Joincoin, Doom) */
 	ALGO_LYRA2,       /* Lyra2RE */
-	ALGO_LYRA2REV2,   /* Lyra2REv2 (Vertcoin) */
+	ALGO_LYRA2REV2,   /* Lyra2REv2 */
+	ALGO_LYRA2V3,     /* Lyra2REv3 (Vertcoin) */
 	ALGO_MYR_GR,      /* Myriad Groestl */
 	ALGO_NIST5,       /* Nist5 */
 	ALGO_PENTABLAKE,  /* Pentablake */
@@ -109,6 +111,7 @@ enum algos {
 	ALGO_PHI2,
 	ALGO_PLUCK,       /* Pluck (Supcoin) */
 	ALGO_QUBIT,       /* Qubit */
+	ALGO_RAINFOREST,  /* RainForest */
 	ALGO_SCRYPT,      /* scrypt */
 	ALGO_SCRYPTJANE,  /* Chacha */
 	ALGO_SHAVITE3,    /* Shavite3 */
@@ -133,6 +136,7 @@ enum algos {
 	ALGO_X16R,
 	ALGO_X16S,
 	ALGO_X17,         /* X17 */
+	ALGO_X20R,
 	ALGO_XEVAN,
 	ALGO_YESCRYPT,
 	ALGO_ZR5,
@@ -150,6 +154,7 @@ static const char *algo_names[] = {
 	"bastion",
 	"blake",
 	"blakecoin",
+	"blake2b",
 	"blake2s",
 	"bmw",
 	"c11",
@@ -165,6 +170,7 @@ static const char *algo_names[] = {
 	"luffa",
 	"lyra2re",
 	"lyra2rev2",
+	"lyra2v3",
 	"myr-gr",
 	"nist5",
 	"pentablake",
@@ -172,6 +178,7 @@ static const char *algo_names[] = {
 	"phi2",
 	"pluck",
 	"qubit",
+	"rainforest",
 	"scrypt",
 	"scrypt-jane",
 	"shavite3",
@@ -196,6 +203,7 @@ static const char *algo_names[] = {
 	"x16r",
 	"x16s",
 	"x17",
+	"x20r",
 	"xevan",
 	"yescrypt",
 	"zr5",
@@ -308,6 +316,7 @@ Options:\n\
                           bitcore      Timetravel with 10 algos\n\
                           blake        Blake-256 14-rounds (SFR)\n\
                           blakecoin    Blake-256 single sha256 merkle\n\
+                          blake2b      Blake2-B (512)\n\
                           blake2s      Blake2-S (256)\n\
                           bmw          BMW 256\n\
                           c11/flax     C11\n\
@@ -324,7 +333,8 @@ Options:\n\
                           keccakc      Keccak (CreativeCoin)\n\
                           luffa        Luffa\n\
                           lyra2re      Lyra2RE\n\
-                          lyra2rev2    Lyra2REv2 (Vertcoin)\n\
+                          lyra2rev2    Lyra2REv2\n\
+                          lyra2v3      Lyra2REv3 (Vertcoin)\n\
                           myr-gr       Myriad-Groestl\n\
                           neoscrypt    NeoScrypt(128, 2, 1)\n\
                           nist5        Nist5\n\
@@ -334,6 +344,7 @@ Options:\n\
                           phi2         LUX newer algo\n\
                           quark        Quark\n\
                           qubit        Qubit\n\
+                          rainforest   RainForest (256)\n\
                           scrypt       scrypt(1024, 1, 1) (default)\n\
                           scrypt:N     scrypt(N, 1, 1)\n\
                           scrypt-jane:N (with N factor from 4 to 30)\n\
@@ -356,6 +367,7 @@ Options:\n\
                           x16r         X16R (Raven)\n\
                           x16s         X16S (Pigeon)\n\
                           x17          X17\n\
+                          x20r         X20R\n\
                           xevan        Xevan (BitSend)\n\
                           yescrypt     Yescrypt\n\
                           zr5          ZR5\n\
@@ -1844,12 +1856,14 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work)
 			case ALGO_KECCAKC:
 			case ALGO_LBRY:
 			case ALGO_LYRA2REV2:
+			case ALGO_LYRA2V3:
 			case ALGO_PHI2:
 			case ALGO_TIMETRAVEL:
 			case ALGO_BITCORE:
 			case ALGO_XEVAN:
 			case ALGO_X16R:
 			case ALGO_X16S:
+			case ALGO_X20R:
 				work_set_target(work, sctx->job.diff / (256.0 * opt_diff_factor));
 				break;
 			case ALGO_KECCAK:
@@ -2174,6 +2188,7 @@ static void *miner_thread(void *userdata)
 			case ALGO_ALLIUM:
 			case ALGO_LYRA2:
 			case ALGO_LYRA2REV2:
+			case ALGO_LYRA2V3:
 			case ALGO_PHI1612:
 			case ALGO_PHI2:
 			case ALGO_TIMETRAVEL:
@@ -2202,6 +2217,7 @@ static void *miner_thread(void *userdata)
 			case ALGO_X16R:
 			case ALGO_X16S:
 			case ALGO_X17:
+			case ALGO_X20R:
 			case ALGO_ZR5:
 				max64 = 0x1ffff;
 				break;
@@ -2254,6 +2270,9 @@ static void *miner_thread(void *userdata)
 		case ALGO_BLAKECOIN:
 			rc = scanhash_blakecoin(thr_id, &work, max_nonce, &hashes_done);
 			break;
+		case ALGO_BLAKE2B:
+			rc = scanhash_blake2b(thr_id, &work, max_nonce, &hashes_done);
+			break;
 		case ALGO_BLAKE2S:
 			rc = scanhash_blake2s(thr_id, &work, max_nonce, &hashes_done);
 			break;
@@ -2304,6 +2323,9 @@ static void *miner_thread(void *userdata)
 		case ALGO_LYRA2REV2:
 			rc = scanhash_lyra2rev2(thr_id, &work, max_nonce, &hashes_done);
 			break;
+		case ALGO_LYRA2V3:
+			rc = scanhash_lyra2v3(thr_id, &work, max_nonce, &hashes_done);
+			break;
 		case ALGO_MYR_GR:
 			rc = scanhash_myriad(thr_id, &work, max_nonce, &hashes_done);
 			break;
@@ -2331,6 +2353,9 @@ static void *miner_thread(void *userdata)
 			break;
 		case ALGO_QUBIT:
 			rc = scanhash_qubit(thr_id, &work, max_nonce, &hashes_done);
+			break;
+		case ALGO_RAINFOREST:
+			rc = scanhash_rf256(thr_id, &work, max_nonce, &hashes_done);
 			break;
 		case ALGO_SCRYPT:
 			rc = scanhash_scrypt(thr_id, &work, max_nonce, &hashes_done, scratchbuf, opt_scrypt_n);
@@ -2397,6 +2422,9 @@ static void *miner_thread(void *userdata)
 			break;
 		case ALGO_X16R:
 			rc = scanhash_x16r(thr_id, &work, max_nonce, &hashes_done);
+			break;
+		case ALGO_X20R:
+			rc = scanhash_x20r(thr_id, &work, max_nonce, &hashes_done);
 			break;
 		case ALGO_X16S:
 			rc = scanhash_x16s(thr_id, &work, max_nonce, &hashes_done);
@@ -2930,6 +2958,8 @@ void parse_arg(int key, char *arg)
 				i = opt_algo = ALGO_LYRA2;
 			else if (!strcasecmp("lyra2v2", arg))
 				i = opt_algo = ALGO_LYRA2REV2;
+			else if (!strcasecmp("lyra2rev3", arg))
+				i = opt_algo = ALGO_LYRA2V3;
 			else if (!strcasecmp("monero", arg))
 				i = opt_algo = ALGO_CRYPTONIGHT;
 			else if (!strcasecmp("phi", arg))

@@ -225,6 +225,7 @@
     <ClCompile Include="algo\luffa.c" />
     <ClCompile Include="algo\lyra2re.c" />
     <ClCompile Include="algo\lyra2rev2.c" />
+    <ClCompile Include="algo\lyra2v3.c" />
     <ClCompile Include="algo\myr-groestl.c" />
     <ClCompile Include="algo\neoscrypt.c" />
     <ClCompile Include="algo\nist5.c" />
@@ -234,6 +235,7 @@
     <ClCompile Include="algo\pluck.c" />
     <ClCompile Include="algo\quark.c" />
     <ClCompile Include="algo\qubit.c" />
+    <ClCompile Include="algo\rainforest.c" />
     <ClCompile Include="algo\s3.c" />
     <ClCompile Include="algo\sha2.c" />
     <ClCompile Include="algo\sia.c" />
@@ -257,6 +259,7 @@
     <ClCompile Include="algo\x16r.c" />
     <ClCompile Include="algo\x16s.c" />
     <ClCompile Include="algo\x17.c" />
+    <ClCompile Include="algo\x20r.c" />
     <ClCompile Include="algo\xevan.c" />
     <ClCompile Include="algo\yescrypt.c" />
     <ClCompile Include="algo\zr5.c" />
@@ -288,6 +291,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="sha3\sph_haval.c" />
+    <ClCompile Include="sha3\sph_panama.c" />
+    <ClCompile Include="sha3\sph_radiogatun.c" />
     <ClCompile Include="sha3\sph_whirlpool.c" />
     <ClCompile Include="sha3\gost_streebog.c" />
     <ClCompile Include="sha3\md_helper.c">
@@ -357,6 +362,8 @@
     <ClInclude Include="sha3\sph_simd.h" />
     <ClInclude Include="sha3\sph_skein.h" />
     <ClInclude Include="sha3\sph_hamsi.h" />
+    <ClInclude Include="sha3\sph_panama.h" />
+    <ClInclude Include="sha3\sph_radiogatun.h" />
     <ClInclude Include="sha3\sph_types.h" />
     <ClInclude Include="sha3\sph_whirlpool.h" />
     <ClInclude Include="yescrypt\sha256_Y.h" />
